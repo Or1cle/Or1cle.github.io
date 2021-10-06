@@ -26,6 +26,7 @@
 		var wis = parseInt(document.getElementById("wis").value);
 		var longrest = parseInt(document.getElementById("lr").value);
     var adv = document.getElementById('advantage');
+    var acc = document.getElementById('acc');
     //Every two days player must sleep
     //Days spent is halved and rounded down to account for a loong rest 
     //Time spent resting is then subtracted from the total
@@ -42,7 +43,6 @@
     for(var i = 0; i < days/2; i++){
       var roll = parseInt(rollDice(adv)); 
       roll += wis;
-      roll = roll/2;
       roll = roll*1.5;
       result += roll;
     }
@@ -62,6 +62,11 @@
       }
     }
     //Rounds down
+    if(acc.checked){
+      result = result*2;
+    }
+
+
     console.log("Result: "+ Math.floor(result)); 
     var myDiv = document.getElementById("content");
     myDiv.innerHTML = "Result: "+ Math.floor(result);
@@ -95,6 +100,8 @@
       <td><input type="text" id="lr" size="20"><br>
     <tr><td><label for="txtSchoolName">Advantage</label>
       <td><input type="checkbox" id="advantage"><br>
+    <tr><td><label for="txtSchoolName">Accelerated</label>
+      <td><input type="checkbox" id="acc"><br>
     <tr><td><button onclick="calc()" type="button" class="button button1">Calculate</button>
   </table>
 <div id="content"></div>
