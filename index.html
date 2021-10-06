@@ -29,10 +29,12 @@
     //Every two days player must sleep
     //Days spent is halved and rounded down to account for a loong rest 
     //Time spent resting is then subtracted from the total
+    var hDay = Math.floor(days /2);
+    hDay += 1;
     var x = Math.floor((days/2) *longrest)
     hrs = hrs - x;
     //Subtract the number of full rolls from hrs 
-    hrs = hrs - Math.floor(days /2)
+    hrs = hrs - hDay;
 
     var result = 0;
 
