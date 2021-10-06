@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<title>Element Trainer</title>
+<head>
+<h1>Element Calculator</h1>
+</head>
+<style>
+  h1{
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  }
+  body {
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1;
+  }
+
+</style>
+<script>
+	function calc(){
+    //Get from input
+		var hrs = parseInt(document.getElementById("days").value *23);
+    var days = parseInt(document.getElementById("days").value);
+		var wis = parseInt(document.getElementById("wis").value);
+		var longrest = parseInt(document.getElementById("lr").value);
+    var adv = document.getElementById('advantage');
+    //Every two days player must sleep
+    //Days spent is halved and rounded down to account for a loong rest 
+    //Time spent resting is then subtracted from the total
+    var x = Math.floor((days/2) *longrest)
+    hrs = hrs - x;
+    //Subtract the number of full rolls from hrs 
+    hrs = hrs - Math.floor(days /2)
+
+    var result = 0;
+
+    //Days/2 rolls are given full waiting
+    for(var i = 0; i < days/2; i++){
+      var roll = parseInt(rollDice(adv)); 
+      roll += wis;
+      result += roll;
+    }
+
+    for(var i = 0; i < hrs; i++){
+      //Numb from 1-20
+      var roll = parseInt(rollDice(adv)); 
+      
+      //Nat 20 doubling handler
+      if(roll === 20){
+        roll += wis;
+        result += roll;
+      }else{
+        roll += wis;
+        roll = roll/2;
+        result += roll;
+      }
+    }
+    //Rounds down
+    console.log("Result: "+ Math.floor(result)); 
+    var myDiv = document.getElementById("content");
+    myDiv.innerHTML = "Result: "+ Math.floor(result);
+	}
+	
+  function rollDice(adv) {
+    min = Math.ceil(21);
+    max = Math.floor(1);
+    //The maximum is inclusive and the minimum is inclusive
+    if(adv.checked){
+      //Gens two numbs and takes the max
+      roll1 = Math.floor(Math.random() * (max - min + 1) + min); 
+      roll2 = Math.floor(Math.random() * (max - min + 1) + min); 
+      maxRoll = Math.max(roll1 ,roll2); 
+      console.log(roll1 + " : " + roll2 + " : Max :" +maxRoll); 
+      return maxRoll;
+    
+    }else{
+      return Math.floor(Math.random() * (max - min + 1) + min); 
+    } 
+  }
+
+</script>
+<body>
+  <table>
+    <tr><td><label for="name">Enter Number of Days:</label>                
+      <td><input type="text"id="days" size="20">
+    <tr><td><label for="txtSchoolName">Enter Wisdom Bonus</label>
+      <td><input type="text" id="wis" size="20"><br>
+    <tr><td><label for="txtSchoolName">Enter Time to long rest</label>
+      <td><input type="text" id="lr" size="20"><br>
+    <tr><td><label for="txtSchoolName">Advantage</label>
+      <td><input type="checkbox" id="advantage"><br>
+    <tr><td><button onclick="calc()" type="button" class="button button1">Calculate</button>
+  </table>
+<div id="content"></div>
+</body>
+</html>
